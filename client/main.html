@@ -1,0 +1,36 @@
+<head>
+  <title>Virtual Sports Data</title>
+</head>
+
+<body>
+</body>
+
+<template name="main"> 
+  <ul>
+    <li><a href="/start">Start Data Collection</a></li>
+    <li><a href="/stop">Stop Data Collection</a></li>
+  </ul>
+</template>
+
+<template name="start"> 
+  <div class="container">
+    <label>Starting Virtual Football Data Collection...</label>
+    <div>
+      <br/>
+      <button onclick="Meteor.call('login')">Login</button>
+      <br/><br/>
+      <button onclick="Meteor.call('loadEvents')">Load Events</button>
+      <br/><br/>
+      <button onclick="Meteor.call('saveResults')">Save Results</button>
+      <br/><br/>
+      <button onclick="Meteor.call('saveMarketPrices')">Save Market Prices</button>
+      <br/><br/>
+    </div>
+  </div>
+</template>
+
+<template name="stop"> 
+  <div class="container">
+    <label>Stoping Virtual Football Data Collection...</label>
+  </div>
+</template>
