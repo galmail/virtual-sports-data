@@ -57,6 +57,7 @@ virtualSportsAgent.login = function(callback){
 			    }, function(cookie){
 			    	if(cookie==null || cookie==""){
 			    		console.log("not logged!");
+			    		virtualSportsAgent.logged = false;
 			    		return false;
 			    	}
 		    		virtualSportsAgent.cookie = cookie;
@@ -64,10 +65,12 @@ virtualSportsAgent.login = function(callback){
 		    		if(xsrftokenStr!=null && xsrftokenStr!=""){
 		    			virtualSportsAgent.xsrftoken = xsrftokenStr.split("xsrftoken=")[1];
 		    			console.log("logged successful!");
+		    			virtualSportsAgent.logged = true;
 		    			return true;
 		    		}
 		    		else {
 		    			console.log("not logged!");
+		    			virtualSportsAgent.logged = false;
 		    			return false;
 		    		}
 			    });
@@ -86,7 +89,9 @@ virtualSportsAgent.login = function(callback){
 			    clearInterval(virtualSportsAgent.interval);
 			    console.log("test complete!");
 			    ph.exit();
-			    if(callback) callback();
+			    setTimeout(function(){
+			    	if(callback) callback(virtualSportsAgent.logged);
+			    },2000);
 			  }
 			}, 2000);
 

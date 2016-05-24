@@ -60,6 +60,8 @@ npm-container@1.2.0
 npm-mongo@1.4.43
 observe-sequence@1.0.11
 ordered-dict@1.0.7
+peerlibrary:blocking@0.5.2
+peerlibrary:xml2js@0.4.8_1
 promise@0.6.7
 random@1.0.9
 reactive-dict@1.1.7

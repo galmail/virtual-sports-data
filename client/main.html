@@ -15,8 +15,12 @@
 <template name="start"> 
   <div class="container">
     <label>Starting Virtual Football Data Collection...</label>
+    <p>
+      <button onclick="Meteor.call('startVirtualSportsAgent')">Run Virtual Sports Agent</button>
+    </p>
     <div>
-      <br/>
+      <label>Some functions to test...</label>
+      <br/><br/>
       <button onclick="Meteor.call('login')">Login</button>
       <br/><br/>
       <button onclick="Meteor.call('loadEvents')">Load Events</button>
