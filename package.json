@@ -1,5 +1,8 @@
 {
   "name": "virtual-sports-data",
+  "description": "Virtual Sports Data Collector",
+  "url" : "https://github.com/galmail/virtual-sports-data",
+  "email" : "galmail@gmail.com",
   "private": true,
   "scripts": {
     "start": "meteor run"
