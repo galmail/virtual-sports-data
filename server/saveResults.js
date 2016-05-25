@@ -6,6 +6,12 @@ virtualSportsAgent.saveResults = function(callback){
 	
 	console.log('Starting saveResults function.');
 
+  if(virtualSportsAgent.xsrftoken == null || virtualSportsAgent.cookie == null){
+    console.log("xsrftoken/cookie not found.");
+    if(callback) callback(false);
+    return;
+  }
+
 	var url = "https://www.betfair.com/sport/virtuals/football?modules=virtuals-latest-results&sport=SOCCER&action=update&lastId=1044&ts=1463963943720&alt=json&xsrftoken="+virtualSportsAgent.xsrftoken;
 
 	try {
@@ -17,18 +23,17 @@ virtualSportsAgent.saveResults = function(callback){
   		}
   	});
   	
-    console.log("httpCall.statusCode: ", httpCall.statusCode);
-  	
     if(httpCall.statusCode != 200){
+      console.log("httpCall.statusCode: " + httpCall.statusCode);
       if(callback) callback(false);
       return;
     }
 
     if(httpCall.content.indexOf('{"page":{"config"')>100){
+      console.log("got a bad json result.");
       if(callback) callback(false);
       return;
     }
-
 
     var data = JSON.parse(httpCall.content);
 

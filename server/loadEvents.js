@@ -6,6 +6,12 @@ virtualSportsAgent.loadEvents = function(callback){
 	
 	console.log('Starting loadEvents function.');
 
+  if(virtualSportsAgent.xsrftoken == null || virtualSportsAgent.cookie == null){
+    console.log("xsrftoken/cookie not found.");
+    if(callback) callback(false);
+    return;
+  }
+
 	var url = "https://www.betfair.com/sport/virtuals/football?modules=virtuals-marketview&openDate=1463706240000&action=virtualMarketViewNextEvents&lastId=1044&ts=1463705310646&alt=json&xsrftoken="+virtualSportsAgent.xsrftoken;
 
 	//Fiber(function(){
@@ -18,14 +24,14 @@ virtualSportsAgent.loadEvents = function(callback){
   		}
   	});
   	
-    console.log("httpCall.statusCode: ", httpCall.statusCode);
-    
     if(httpCall.statusCode != 200){
+      console.log("httpCall.statusCode: " + httpCall.statusCode);
       if(callback) callback(false);
       return;
     }
 
     if(httpCall.content.indexOf('{"page":{"config"')>100){
+      console.log("got a bad json result.");
       if(callback) callback(false);
       return;
     }
@@ -36,10 +42,11 @@ virtualSportsAgent.loadEvents = function(callback){
 
     //console.log(htmlStr);
 
-
     var eventsId = htmlStr.match(/<div class="content .*? data-eventId="\d+/g);
     var eventsName = htmlStr.match(/<div class="event-name">.*?(?=<\/div>)/g);
     var eventsDescription = htmlStr.match(/<div class="event-description">.*?(?=<\/div>)/g);
+
+    //var marketMatchOdds = htmlStr.match(/<div class="market-selections table market-match-odds">.*?data-marketId=".*?"/g);
 
     if(eventsId.length == 0 || eventsId.length != eventsName.length || eventsName.length != eventsDescription.length){
       console.log("json parse error");
