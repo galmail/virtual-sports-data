@@ -22,60 +22,83 @@ Meteor.methods({
 	startVirtualSportsAgent: function(){
 
     var pollingInterval = 60 * 1000; // every minute
-    
-    var tryLogin = function(intents,cbk,_i){
-      virtualSportsAgent.login(function(logged){
-        if(_i==null) _i=0;
-        if(logged) return cbk(true);
-        if(_i>=intents) return cbk(false);
-        _i++;
-        tryLogin(intents,cbk,_i);
-      });
-    };
+    var attempts = 3;
 
-    var start = function(){
-      tryLogin(3,function(logged){
-        if(!logged){
-          console.log("Failed to login 3 times.");
-          return false;
-        }
-        var saveData = function(){
-          Fiber(function(){
-            virtualSportsAgent.loadEvents(function(ok){
-              if(!ok) return start();
-              virtualSportsAgent.saveResults(function(ok){
+    try {
+
+      var tryLogin = function(intents,cbk,_i){
+        virtualSportsAgent.login(function(logged){
+          if(_i==null) _i=0;
+          if(logged) return cbk(true);
+          if(_i>=intents) return cbk(false);
+          _i++;
+          tryLogin(intents,cbk,_i);
+        });
+      };
+
+      var start = function(){
+        tryLogin(attempts,function(logged){
+          if(!logged){
+            console.log("Failed to login 3 times.");
+            return false;
+          }
+          var saveData = function(){
+            Fiber(function(){
+              virtualSportsAgent.loadEvents(function(ok){
                 if(!ok) return start();
-                setTimeout(saveData,pollingInterval);
+                virtualSportsAgent.saveResults(function(ok){
+                  if(!ok) return start();
+                  setTimeout(saveData,pollingInterval);
+                });
               });
-            });
-          }).run();
-        };
-        saveData();
-      });
-    };
+            }).run();
+          };
+          saveData();
+        });
+      };
 
-    start();
+      start();
+
+    } catch(e) {
+      console.log("error: ", e);
+    }
 
     return { res: "success" };
   },
 
   login: function(callback){
-    virtualSportsAgent.login(callback);
-    //return { res: "success" };
+    try {
+      virtualSportsAgent.login(callback);
+    } catch(e) {
+      console.log("error: ", e);
+    }
+    return { res: "success" };
   },
 
   loadEvents: function(){
-    virtualSportsAgent.loadEvents();
+    try {
+      virtualSportsAgent.loadEvents();
+    } catch(e) {
+      console.log("error: ", e);
+    }
     return { res: "success" };
   },
 
   saveResults: function(){
-    virtualSportsAgent.saveResults();
+    try {
+      virtualSportsAgent.saveResults();
+    } catch(e) {
+      console.log("error: ", e);
+    }
     return { res: "success" };
   },
 
   saveMarketPrices: function(){
-    virtualSportsAgent.saveMarketPrices();
+    try {
+      virtualSportsAgent.saveMarketPrices();
+    } catch(e) {
+      console.log("error: ", e);
+    }
     return { res: "success" };
   }
 

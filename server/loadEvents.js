@@ -16,7 +16,7 @@ virtualSportsAgent.loadEvents = function(callback){
 
 	//Fiber(function(){
 	try {
-  	var httpCall = HTTP.call("GET",url,{
+  	var httpCall = Meteor.http.call("GET",url,{
   		headers: {
   			"X-Requested-With": "XMLHttpRequest",
   			"Accept": "*/*",
