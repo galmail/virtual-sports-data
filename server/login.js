@@ -10,8 +10,9 @@ virtualSportsAgent.login = function(callback){
 	virtualSportsAgent.testindex = 0;
 	virtualSportsAgent.loadInProgress = false;
 
-	Phantom.create("--web-security=no", "--ignore-ssl-errors=yes",{},function (ph) {
-	  ph.createPage(function(page){
+	Phantom.create(["--web-security=no", "--ignore-ssl-errors=yes", "--load-images=no"]).then(function (ph) {
+	  
+	  ph.createPage().then(function(page){
 	  	
 	  	page.onConsoleMessage = function(msg) {
 			  console.log(msg);
@@ -40,10 +41,12 @@ virtualSportsAgent.login = function(callback){
 
 			  function() {
 			    page.evaluate(function() {
+			    	console.log("filling login details...");
 			      document.getElementById("ssc-liu").value="guli@tocarta.es";
 			      document.getElementById("ssc-lipw").value="guliguli1";
 			      var theForm = document.getElementsByClassName("ssc-lif")[0];
 			      theForm.submit();
+			      console.log("form submitted.");
 			    });
 			  },
 
@@ -54,7 +57,8 @@ virtualSportsAgent.login = function(callback){
 			    	var res = "";
 			    	if(document.cookie!=null) res = document.cookie;
 			      return res;
-			    }, function(cookie){
+			    }).then(function(cookie){
+			    	//console.log("cookie",cookie);
 			    	if(cookie==null || cookie==""){
 			    		console.log("not logged!");
 			    		virtualSportsAgent.logged = false;
@@ -73,7 +77,7 @@ virtualSportsAgent.login = function(callback){
 		    			virtualSportsAgent.logged = false;
 		    			return false;
 		    		}
-			    });
+	    		});
 			  }
 
 			];
@@ -96,6 +100,7 @@ virtualSportsAgent.login = function(callback){
 			}, 2000);
 
 	  });
+
 	});
 
 };

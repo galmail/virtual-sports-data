@@ -6,6 +6,8 @@ Meteor.startup(() => {
 
   Fiber = Meteor.npmRequire('fibers');
   Phantom = Meteor.npmRequire('phantom');
+  // phantomjs = Meteor.npmRequire('phantomjs');
+  // spawn = Meteor.npmRequire('child_process').spawn;
 
   // Initialize the Collections
 
@@ -28,7 +30,7 @@ Meteor.methods({
 
       var tryLogin = function(intents,cbk,_i){
         virtualSportsAgent.login(function(logged){
-          if(_i==null) _i=0;
+          if(_i==null) _i=1;
           if(logged) return cbk(true);
           if(_i>=intents) return cbk(false);
           _i++;
