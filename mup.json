@@ -14,7 +14,7 @@
   "setupMongo": true,
 
   // WARNING: Node.js is required! Only skip if you already have Node.js installed on server.
-  "setupNode": true,
+  "setupNode": false,
 
   // WARNING: If nodeVersion omitted will setup 0.10.36 by default. Do not use v, only version number.
   "nodeVersion": "0.10.43",
@@ -30,7 +30,7 @@
   "appName": "virtual-sports-data",
 
   // Location of app (local directory)
-  "app": "/Users/gal/Desktop/virtual-sports-data",
+  "app": "/Users/gal/Desktop/gal/virtual-sports-data",
 
   // Configure environment
   "env": {

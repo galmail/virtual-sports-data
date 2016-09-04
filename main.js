@@ -1,16 +1,14 @@
 // main.js
 
-Router.route('/', function(){
-  this.render('main');
-});
 
+//if(Meteor.isClient){
 
-// Router.route('/start',function(){
-// 	Meteor.call("login");
-// 	this.render('start');
-// });
+	Router.route('/', function(){
+	  this.render('main');
+	});
 
+	Router.route('/start');
 
-Router.route('/start');
-Router.route('/stop');
+	Router.route('/stop');
 
+//}

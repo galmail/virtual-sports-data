@@ -2,3 +2,4 @@ node_modules
 packages/npm-container/.npm/package/node_modules
 .meteor/local
 VirtualSports.pem
+dump
